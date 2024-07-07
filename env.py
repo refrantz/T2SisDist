@@ -1,4 +1,4 @@
-import pickle
+import cPickle as pickle
 import socket
 import os, signal, sys, time
 from acceptor import Acceptor
@@ -36,7 +36,7 @@ class Env:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         s.connect((host, port))  # You need to define `host` and `port` properly
-        s.sendall(pickle.dumps(msg))
+        s.sendall(pickle.dumps(msg, protocol=pickle.HIGHEST_PROTOCOL))
     except Exception as e:
         print("Failed to send message:", e)
     finally:

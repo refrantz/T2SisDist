@@ -1,5 +1,5 @@
 import socket
-import pickle
+import cPickle as pickle
 from threading import Thread
 from Queue import Queue
 
@@ -23,8 +23,11 @@ class Process(Thread):
         client_socket, addr = self.server_socket.accept()
         data = client_socket.recv(1024)
         if data:
+          try:
             msg = pickle.loads(data)
             self.inbox.put(msg)
+          except EOFError:
+            break
         client_socket.close()
 
   def run(self):
